@@ -1,12 +1,12 @@
 const express = require("express")
-const actionModel = require("../data/helpers/projectModel")
+const projectModel = require("../data/helpers/projectModel.js")
 const router = express.Router()
 
 router.get("/", (req, res) => {
   projectModel
     .get()
-    .then(res => {
-      res.status(200).json(res)
+    .then(response => {
+      res.status(200).json(response)
     })
     .catch(err => {
       res.status(500).send("error fetching projects")
@@ -16,7 +16,7 @@ router.get("/", (req, res) => {
 router.get("/:id", (req, res) => {
   projectModel
     .get(req.params.id)
-    .then(res => {
+    .then(response => {
       res.status(200).json(response)
     })
     .catch(err => {
@@ -25,10 +25,10 @@ router.get("/:id", (req, res) => {
 })
 
 router.get("/:id/actions", (req, res) => {
-  model
+  projectModel
     .getProjectActions(req.params.id)
-    .then(res => {
-      res.status(200).json(res)
+    .then(response => {
+      res.status(200).json(response)
     })
     .catch(err => {
       res.status(500).send("there was an error fetching the actions")
@@ -42,7 +42,7 @@ router.post("/", (req, res) => {
     description,
     completed
   }
-  actionModel
+  projectModel
     .insert(project)
     .then(response => {
       res.status(200).json(response)
@@ -53,14 +53,14 @@ router.post("/", (req, res) => {
 })
 
 router.delete("/:id", (req, res) => {
-  model
+  projectModel
     .get(req.params.id)
-    .then(res => {
-      res.status(200).json(res)
+    .then(response_1 => {
+      res.status(200).json(response_1)
       model
         .remove(req.params.id)
-        .then(res => {
-          res.status(200).send("this post has been deleted")
+        .then(response_2 => {
+          res.status(200).json("this post has been deleted")
         })
         .catch(err => {
           res.status(500).send("there was an error deleting the project")
@@ -78,7 +78,7 @@ router.put("/:id", (req, res) => {
     description,
     completed
   }
-  actionModel
+  projectModel
     .update(req.params.id, changes)
     .then(response => {
       res.status(200).json(response)

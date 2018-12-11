@@ -6,8 +6,8 @@ const router = express.Router()
 router.get("/", (req, res) => {
   actionModel
     .get()
-    .then(res => {
-      res.status(200).json(res)
+    .then(response => {
+      res.status(200).json(response)
     })
     .catch(err => {
       res.status(500).json({
@@ -19,11 +19,13 @@ router.get("/", (req, res) => {
 router.get("/:id", (req, res) => {
   actionModel
     .get(req.params.id)
-    .then(res => {
-      res.status(200).json(res)
+    .then(response => {
+      res.status(200).json(response)
     })
     .catch(err => {
-      message: "There was an error receiving the individual action"
+      res.status(500).json({
+        message: "Error receiving individual action"
+      })
     })
 })
 
@@ -38,8 +40,8 @@ router.post("/", (req, res) => {
   }
   actionModel
     .insert(actions)
-    .then(res => {
-      res.status(200).json(res)
+    .then(response => {
+      res.status(200).json(response)
     })
     .catch(err => {
       res.status(500).json({
@@ -51,8 +53,8 @@ router.post("/", (req, res) => {
 router.delete("/:id", (req, res) => {
   actionModel
     .get(req.params.id)
-    .then(res => {
-      res.status(200).json(res)
+    .then(response => {
+      res.status(200).json(response)
       actionModel
         .remove(req.params.id)
         .then(res => {
@@ -77,8 +79,8 @@ router.put("/:id", (req, res) => {
   }
   actionModel
     .update(req.params.id, updatedPost)
-    .then(res => {
-      res.status(200).json(res)
+    .then(response => {
+      res.status(200).json(response)
     })
     .catch(err => {
       res.status(404).send("this action does not exist")
